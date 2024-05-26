@@ -22,9 +22,11 @@ class SGA:
 	def get_chromosome(self, idx):
 		return self.population[idx]
 
+	def set_chromosome(self, idx, chromosome):
+		self.population[idx] = chromosome
+
 	def rank_fitness(self):
-		flist = [c.get_fitness() for c in self.population]
-		fitnesses = np.array(flist)
+		fitnesses = np.array([c.get_fitness() for c in self.population])
 
 		idx = fitnesses.argsort()
 		self.population = self.population[idx]
@@ -71,33 +73,36 @@ class SGA:
 		grid_vals = sudoku.Sudoku(self.constraints).get_grid_vals()
 
 		for i in range(int(self.elite_cutoff*self.population_size), self.population_size):
-			self.population[i].mutate(self.mutation_rate, sboard, grid_vals)
+			self.get_chromosome(i).mutate(self.mutation_rate, sboard, grid_vals)
 
-	def evolution(self):
+	def evolution(self, display=False, verbose=False):
 		generation = 1
-		self.rank_fitness()
-
-		while(self.population[0].get_fitness() > 0 and generation < self.max_generations):
-			next_gen = []
-			for i in range(int(len(self.population)*self.elite_cutoff)):
-				next_gen += [self.population[i]]
-
-			pairs = self.parent_selection()
-
-			for p in pairs:
-				for i in range(3):
-					next_gen += [self.crossover(p[0], p[1])]
-
-			for i in range(self.population_size):
-				self.population[i] = next_gen[i]
-
-			self.mutation()
+		if(generation == 1):
 			self.rank_fitness()
 
-			generation += 1
-			# print("max fitness", self.population[0].get_fitness(), " generation", generation, "mutation", self.mutation_rate)
+		while(self.get_chromosome(0).get_fitness() > 0 and generation < self.max_generations):
+			parents = self.parent_selection()
+			children = []
+			
+			for p in parents:
+				for i in range(3):
+					children.append(self.crossover(p[0], p[1]))
 
-		return self.population[0].get_fitness()
+			for i in range(int(self.population_size*self.elite_cutoff), self.population_size):
+				self.set_chromosome(i, children.pop())
+					
+			self.mutation()
+			self.rank_fitness()
+			
+			if verbose:
+				print("Generation:", generation, " Repeated numbers in row/columns:", self.get_chromosome(0).get_fitness())
+
+			generation += 1
+
+		if display:
+			self.get_chromosome(0).display()
+
+		return self.get_chromosome(0).get_fitness()
 
 
 

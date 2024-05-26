@@ -33,19 +33,8 @@ subset = random.choices(quizzes, k=50)
 x = np.arange(0, 50)
 y = np.zeros_like(x)
 
-for i in range(50):
-	sga_instance = sga.SGA(subset[i], 1000, 0.1, 50)
-	y[i] = sga_instance.evolution()
 
-plt.plot(x, y)
-plt.show()
+sga_instance = sga.SGA(subset[0], 1000, 0.1, 50)
+print(sga_instance.evolution(verbose=True, display=True))
 
-# start = time.time()
-
-# sga_instance = sga.SGA(quizzes[0], 1000, 0.1, 50)
-# sga_instance.evolution()
-
-# end = time.time()
-
-# print((end-start), "s")
 

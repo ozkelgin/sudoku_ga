@@ -41,19 +41,22 @@ class Chromosome:
 				loc1 = np.random.randint(cutoff)
 				loc2 = np.random.randint(cutoff, n)
 				if mutation_rate > mutation_grid[x][y] and n > 1:
-					temp = (0,0,0)
-					count = 0
-					for i in range(3*x, 3*(x+1)):
-						for j in range(3*y, 3*(y+1)):
-							if sboard[i][j] == False and count == loc1:
-								temp = (i, j, self.get_gene(i,j))
-								count += 1
-							elif sboard[i][j] == False and count == loc2:
-								self.set_gene(temp[0], temp[1], self.get_gene(i, j))
-								self.set_gene(i, j, temp[2])
-								count += 1
-							elif sboard[i][j] == False:
-								count += 1
+					self.mutate_helper(x, y, sboard, loc1, loc2)
+
+	def mutate_helper(self, x, y, sboard, loc1, loc2):
+		temp = (0,0,0)
+		count = 0
+		for i in range(3*x, 3*(x+1)):
+			for j in range(3*y, 3*(y+1)):
+					if sboard[i][j] == False and count == loc1:
+						temp = (i, j, self.get_gene(i,j))
+						count += 1
+					elif sboard[i][j] == False and count == loc2:
+						self.set_gene(temp[0], temp[1], self.get_gene(i, j))
+						self.set_gene(i, j, temp[2])
+						count += 1
+					elif sboard[i][j] == False:
+						count += 1
 
 	def display(self):
 		res = ""

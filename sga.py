@@ -99,10 +99,12 @@ class SGA:
 
 			generation += 1
 
+		fitness = self.get_chromosome(0).get_fitness()
+
 		if display:
 			self.get_chromosome(0).display()
 
-		return self.get_chromosome(0).get_fitness()
+		return fitness
 
 
 

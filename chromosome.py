@@ -37,11 +37,13 @@ class Chromosome:
 		for x in range(3):
 			for y in range(3):
 				n = len(grid_vals[(x, y)])
-				cutoff = int(n/2)
-				loc1 = np.random.randint(cutoff)
-				loc2 = np.random.randint(cutoff, n)
-				if mutation_rate > mutation_grid[x][y] and n > 1:
-					self.mutate_helper(x, y, sboard, loc1, loc2)
+				if n >= 2: 
+					cutoff = int(n/2)
+
+					loc1 = np.random.randint(cutoff)
+					loc2 = np.random.randint(cutoff, n)
+					if mutation_rate > mutation_grid[x][y] and n > 1:
+						self.mutate_helper(x, y, sboard, loc1, loc2)
 
 	def mutate_helper(self, x, y, sboard, loc1, loc2):
 		temp = (0,0,0)

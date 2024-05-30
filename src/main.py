@@ -32,7 +32,7 @@ Output: Displays the final board (unless display=False) and prints the fitness v
 Optional outputs: If verbose=True, prints all generations and their respective best fitness values. 
 
 """
-def solve_game(quiz, population_size=1000, mutation_rate=0.1, max_generations=250, display=True, verbose=False):
+def solve_game(quiz, population_size=1000, mutation_rate=0.2, max_generations=250, display=True, verbose=False):
 	sga_instance = sga.SGA(quiz, population_size, mutation_rate, max_generations)
 	print(sga_instance.evolution(display=display, verbose=verbose))
 
@@ -42,7 +42,7 @@ Required input: subset size.
 Optional inputs: population size, mutation rate, max generations.
 Output: graphs the final fitness values of each random game attempted.
 """
-def solve_random_subset(subset_size, population_size=1000, mutation_rate=0.1, max_generations=250):
+def solve_random_subset(subset_size, population_size=1000, mutation_rate=0.2, max_generations=250):
 	data = np.load("..\\data\\sudoku.npz")
 	quizzes = data["quizzes"]
 

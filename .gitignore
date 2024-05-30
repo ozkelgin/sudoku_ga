@@ -1,3 +1,5 @@
 __pycache__/
 
-data/
+data/sudoku.npz
+
+data/sudoku.csv
